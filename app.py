@@ -49,13 +49,29 @@ fig = plt.scatter(
 # Show the scatterplot in Streamlit
 st.plotly_chart(fig)
 
-fig3 = plt.scatter(
+condition_order = ['salvage', 'fair', 'good', 'like new', 'excellent', 'new']
+
+# Ensure the 'condition' column is a categorical type with the specified order
+vehicles['condition'] = pd.Categorical(
+    vehicles['condition'],
+    categories=condition_order,
+    ordered=True
+)
+
+# Sort the data by the 'condition' column
+vehicles = vehicles.sort_values('condition')
+
+# Create a histogram grouping vehicles by condition with price on the y-axis
+fig6 = plt.histogram(
     vehicles,
-    x='days_listed',
-    y='odometer',
-    title='Scatterplot of Days Posted vs Odometer Reading',
-    labels={'days_listed': 'Days Listed', 'odometer': 'Odometer (miles)'},
+    x='condition',
+    y='price',
+    histfunc='avg',  # Aggregate by average price
+    title='Average Price of Vehicles by Condition (Sorted)',
+    labels={'condition': 'Vehicle Condition', 'price': 'Average Price'},
+    color='condition',  # Optional: Color bars by condition
     width=800,
     height=600
 )
-st.plotly_chart(fig3)
+
+st.plotly_chart(fig6)

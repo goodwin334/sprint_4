@@ -1,4 +1,4 @@
-install pandas
-install streamlit
-install plotly.express
-install altair
+import pandas as pd
+import streamlit as st
+import plotly.express as plt
+import altair as aa
